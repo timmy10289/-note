@@ -1,0 +1,59 @@
+9/27
+
+        centos
+   ↓ ←fedora  → yum
+   ↓   redhat
+   ↓ 
+   ↓   
+   rpm help you compile the source code
+	install the complied software into your system
+
+      ubuntu → apt-get(apt)
+
+
+rpm -ivh  i=install
+	  v=verbase詳細資訊
+	  h=進度
+
+rpm can be used to install/remove/query software
+
+rpm -qa  qa=query all 列出詳細
+rpm -qi  特定套件安裝資訊
+rpm -ql  
+rpm -qf  f= file 可以查詢軟體的來源
+
+rpm -e    -e=remove
+
+rpm -U    U=upgrade
+
+rpm install 很麻煩 當一個software依賴library A 跟B 然後A又依賴library C
+    安裝順序 C>A>B>software
+
+noarch 可以安裝在任何的平台上
+rpm -qa | grep httpd  有沒有安裝httpd
+
+
+yum install
+yum groupinstall
+yum remove
+
+eog 打開圖片
+
+
+wget 網址
+  firefox找htop src tar.gz
+tar xvfz htop-2.2.0.tar.gz
+cd htop-2.2.0/
+ls
+./configure
+yum groupinstall "Development Tools"
+y
+y
+./configure
+yum install ncurses-devel
+y
+./configure
+
+make
+make install
+htop
