@@ -1,0 +1,19 @@
+virtualbox  centos 7 guest addition 安裝
+
+yum install kernel-devel gcc
+
+y
+
+y
+
+[裝置] > [插入Guest Additions CD映像]
+
+mount /dev/cdrom /mnt  該空格一定要空格  (結果:  mount: /dev/sr0 is write-protected, mounting read-only)
+
+cd /mnt
+
+./VBoxLinuxAdditions.run
+
+reboot(保險還是重開機)
+
+
