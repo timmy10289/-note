@@ -1,0 +1,113 @@
+echo "abcdABCD1234" | tr -d [1-9]
+
+echo "abcdABCD1234" | tr -d [a-z]
+
+echo "abcdABCD1234" | tr -d [A-Z]
+
+echo "abcdABCD1234" | tr -d [a-zA-Z]
+
+echo "abcdABCD1234" | tr -d [a-zA-Z1-9]
+
+echo "abcdABCD1234" | tr -d [ #?]
+abcd#AB?CD.1234
+echo "abcdABCD1234" | tr -d [#]
+
+echo "abcdABCD1234" | tr -d [#?]
+
+echo "abcdABCD1234" | tr -d [#?.]
+
+echo "abcd#AB?CD.1234" | tr -d [:alnum:]
+
+echo "abcd#AB?CD1234" | tr -d [:alpha:]
+
+echo "abcd#AB?CD1234" | tr -d [a-zA-Z]
+
+echo "abcd#AB?CD1234" | tr -d [:num:]
+
+echo "abcd#AB?CD1234" | tr -d [:digit:]
+
+echo "abcd#AB?CD.1234" | tr -d [1-9]
+
+echo "abcd#AB?CD.1234" | tr -d [a-zA-Z1-9]
+
+echo "abcd#AB?CD.1234" | tr -d [:alnum:]
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+echo "ABCD" | tr [:upper:] [:lower:]
+abcd
+echo "ABCDabcd" | tr [:upper:] [:lower:]
+abcdabcd
+
+echo "ABCDabcd1234" | tr -c "0-9" "*"   -c=除了
+********1234*  因為後面有/n所以也被轉換成*
+
+echo "ABCDabcd1234" | tr "0-9" "*"
+ABCDabcd****
+
+echo "12345" | tr [0-9] '9876543210'
+76543
+
+echo "12345" | tr '0123456789' '9876543210'
+87654
+echo "87654" | tr '9876543210' '0123456789'
+12345
+
+echo "hello" | tr 'abcdefghijklmnopqrstuvwxyz' 'ahjdkclfogjekvjdjsovjdienc'
+
+解密  echo "轉換結果" | tr 'ahjdkclfogjekvjdjsovjdienc' 'abcdefghijklmnopqrstuvwxyz'
+
+ssh user@***.***.***.*** -p 阜號     預設是22
+
+apt-get install openssh-server 下載ssh套件
+
+yum install openssh-server 下載ssh套件
+
+ssh-keygen
+
+cd /root/.ssh/
+
+ls
+
+id_rsa私鑰
+
+id_rsa.pub公鑰
+
+authorize keys 認證鑰匙
+
+ssh-copy-id root@***.***.***.***
+ssh root@***.***.***.***
+加5分 無密碼登入
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1.ssh-keygen 輸入完後在按enter 放在預設資料夾裡 再按enter不用再另外輸入
+  cd /root/.ssh/
+  cat id_rsa 可以看私鑰的情況
+2.ssh-copy-id root@***.***.***.***
+3. .ssh/authorize_keys
+4. 隨機產生-密碼 ex:hello
+5.用node1的public key 加密 *****
+6. 把加密文字在給node1
+7.到node2送來的加密文字
+8.使用自己的private key 解密hello
+9.形成加密通訊
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+scp "file" root@***.***.***.***:/tmp
+scp root@***.***.***.***:/tmp/"file"
+hostnamectl set-hostname 名字
+要再輸入bash 才會改名字
+
+~~~~~~~~~~~~~~~~~
+echo 內容 > 檔名.txt 快速新增文字檔案 (ex: echo 333 > c.txt)
+scp c.txt root@***.***.***.***:/tmp  用ssh傳輸檔案
+scp rooy@***.***.***.***:/tmp/檔案 /tmp
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+mkdir bbb  創建一個bbb 資料夾
+cd bbb
+touch {a..d}  再裡面創 a b c d 四個資料夾
+cd .. 
+tree bbb   可以看資料夾裡面的關悉
+scp -r bbb root@***.***.***.***:/tmp 傳到另外一個電腦 
