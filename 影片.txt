@@ -1,0 +1,10 @@
+老師的影片
+
+WinSCP
+
+檔案協定 FTP
+主機名稱: csie.nqu.edu.tw
+連接阜21
+
+使用者名稱 test1234
+密碼 test1234
