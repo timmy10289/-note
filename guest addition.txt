@@ -5,9 +5,15 @@ yum install kernel-devel gcc
 y
 
 y
-
+yum update kernel -y
+yum install kernel-headers kernel-devel gcc make -y
+reboot(保險還是重開機) (做到這邊好像就可以用了) 
 [裝置] > [插入Guest Additions CD映像]
+把  [裝置] > 共用剪貼簿   
+    [裝置] > 拖放 
+    都設成雙向就可以了
 
+手動掛載(可以掠過)
 mount /dev/cdrom /mnt  該空格一定要空格  (結果:  mount: /dev/sr0 is write-protected, mounting read-only)
 
 cd /mnt
