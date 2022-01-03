@@ -7,6 +7,8 @@ yum install openssh-server
 
 去另一台B虛擬機
 yum install openssh-server
+ssh-keygen
+cd /root/.ssh/
 ssh-copy-id root@***.***.***.***    後面是A虛擬機的ip
 輸入密碼就會成功複製了
 ssh root@***.***.***.***   後面是A虛擬機的ip 應該就不用密碼登入了
