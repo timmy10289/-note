@@ -1,0 +1,36 @@
+ssh no password login
+
+先在一個A虛擬機執行ssh
+systemctl start sshd
+systemctl status sshd   查看有沒有開啟
+yum install openssh-server
+
+去另一台B虛擬機
+yum install openssh-server
+ssh-copy-id root@***.***.***.***    後面是A虛擬機的ip
+輸入密碼就會成功複製了
+ssh root@***.***.***.***   後面是A虛擬機的ip 應該就不用密碼登入了
+
+這樣子就5分
+
+
+scp
+先把一個虛擬機的ssh打開
+cd ~
+ls 看有沒有tmp資料夾 沒有就mkdir tmp 新增
+cd tmp
+gedit a.txt (裡面內容隨便)
+
+
+
+再開另一台虛擬機
+cd ~
+ls
+cd tmp
+gedit b.txt
+
+scp b.txt root@192.168.56.105:/tmp      把檔案上傳到對方的tmp資料夾
+
+scp root@192.168.56.105:/tmp/a.txt /tmp   把檔案從另外一邊抓過來 
+
+兩個id 都是對方id

@@ -1,0 +1,107 @@
+參考網址https://tecadmin.net/tutorial/bash-scripting/bash-if-else-statement/
+        https://blog.xuite.net/tolarku/blog/505317430
+11/1號
+先安裝apache
+yum install httpd
+y
+成功安裝
+
+systemctl status firewalld  檢查防火牆是否關閉
+
+如果沒有
+systemctl stop firewalld  先停掉
+systemctl disable firewalld  在關閉
+
+你也要確認 selinux也要停止運作
+getenforce   打完這個指令也要 disable
+
+如果沒有
+gedit /etc/selinux/config  去看腳本裡面 SELINUX=enforcing 改成 SELINUX=disabled 然後記得要按save 
+reboot 一定要重開電腦
+
+上面兩步很重要一定要確認不然網頁跑不出來
+
+最後
+systemctl start httpd   開啟apache    
+systemctl status httpd  查看狀態
+
+去你的chrome輸入你的ip就會有了
+虛擬機的firefox 輸入127.0.0.1 也會有
+
+安裝sql資料庫
+yum install mariadb-server mariadb
+systemctl start mariadb.service  開啟資料庫
+systemctl status mariadb.service   檢查有沒有成功打開
+
+資料庫設定
+mysql_secure_installation
+先按enter   因為還沒設密碼
+再按y 設定密碼        我自己設12345
+再輸入一次你剛才設定的密碼   12345
+他會問你要不要移除未知使用者  選n
+他會問你要不要移除遠端登入 選n
+他會問你要不要把test 資料庫移除 選n
+最後問你要不要重新加載  選y
+設定完成
+
+資料庫登入
+mysql -uroot -p
+輸入密碼12345 就可以登入了
+
+資料庫基本指令  後面一定要有分號
+show databases;    顯示目前的資料庫
+create database testdb;  新增一個testdb資料庫
+use testdb;  切換到testdb資料庫
+create table addrbook(name varchar(50) not null, phone varchar(10));  新增一個資料表 (後面資料可以自由調整)
+insert into addrbook(name, phone) values ("tom","1234567890");
+insert into addrbook(name, phone) values ("mary","0987654321"); 插入兩個資料
+
+select * from addrbook;  搜尋資料表  (做到這裡就有十分了)
+按ctrl+c就可以離開資料庫頁面
+
+php安裝
+yum install php php-mysql  安裝
+systemctl restart httpd     要重啟伺服器
+cd /var/www/html  切換到網頁伺服器的家目錄
+gedit test.php 新增一個php檔
+
+
+test.php內容
+~~~~~~~
+<?php
+ phpinfo();
+?>
+~~~~~~~~~~~~~~
+
+然後去chrome 打上你的ip/test.php    show出來  這樣就是5分
+
+
+gedit hi.php   再新增一個php檔
+hi.php內容
+~~~~~~~~~~~~~~~~~~
+<?php
+$servername="localhost";
+$username="root";
+$password="12345";
+$dbname="testdb";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("conneciton failed: ". $conn->connect_error);
+}
+//echo "connection ok"
+
+$sql="select name,phone from addrbook";
+$result=$conn->query($sql);
+
+if($result->num_rows>0){
+   while($row=$result->fetch_assoc()){
+      echo "name:". $row["name"]." phone:". $row["phone"]."<br>";
+   }
+}
+?>
+
+~~~~~~~~~~~~~~~~~~~~~
+
+你的ip/hi.php 有show出來可以得到25分
