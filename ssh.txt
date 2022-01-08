@@ -7,7 +7,11 @@ yum install openssh-server
 
 去另一台B虛擬機
 yum install openssh-server
+先登入另一台ssh
+ssh a虛擬機名稱@***.***.***.***
+輸入密碼成功登入之後就exit登出
 ssh-keygen
+之後一直按enter直到結束
 cd /root/.ssh/
 ssh-copy-id root@***.***.***.***    後面是A虛擬機的ip
 輸入密碼就會成功複製了
