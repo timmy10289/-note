@@ -1,0 +1,80 @@
+samba
+
+yum install samba samba-client samba-common -y
+
+cd /
+
+mkdir mysamba
+
+gedit /etc/samba/smb.conf &
+
+滑到最下面新增文字
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+[mysamba]
+       comment = Shared Directory
+       path = /mysamba
+       browseable = yes
+       writable = yes
+
+       create mode = 0660
+       directory mode = 2770
+
+       valid users = root
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+按ctrl+c返回
+
+testparm  去測試剛才編輯的是對還是錯
+按enter繼續
+systemctl restart smb
+systemctl status smb
+
+smbpasswd -a root   去設定root的密碼(範例centos)
+
+設定好了就去windows 檔案總管>網路>搜尋欄
+
+//192.168.***.***   打自己ip
+
+會叫你輸入帳號密碼  
+帳號root
+密碼centos
+就可以進去了
+
+用windows端在mysamba裡面新增一個檔案(a.txt) 隨便新增內容
+
+去虛擬機端 
+cd mysamba/  
+ls       去看有沒有新增檔案
+ls -al   查看所有檔案權限(包含隱藏檔)
+ll       查看所有檔案權限(不包含隱藏檔)
+
+
+想要用不同帳號登入 就要去cmd
+輸入 net use * /delete    按y刪除 (沒成功就多用幾次)
+
+smbpasswd -a user  可以設定user帳號
+
+想要讓所有人使用
+
+gedit /etc/samba/smb.conf
+
+滑到最下面  把valid users = root改成
+~~~~~~~~~~~~~~~~~~~~~~~
+public = yes
+~~~~~~~~~~~~~~~~~~~~
+
+systemctl restart smb
+cd /home
+ls
+adduser tom  新增一個使用者tom
+ls
+passwd tom   設定密碼tom
+
+smbpasswd -a tom 設定samba密碼tom
+
+去windwos端用tom登入
+成功之後但還不能新增
+把chmod 777 /mysamba  就可以了
+期末考考兩個資料夾
+一個資料夾全部人都可以用
+一個資料夾只有tom可以用
