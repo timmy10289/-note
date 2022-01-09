@@ -1,0 +1,39 @@
+networkmanager to network
+
+兩種網路設定模式(預設是networkmanager)
+筆記型電腦適合networkmanager
+伺服器適合network
+
+systemctl status NetworkManager  應該會是running
+systemctl status network   應該會是exited
+systemctl stop network   應該不會受影響(兩個只能開一個)
+
+更改ip 
+ifconfig 介面卡名稱 ip
+
+還可以改遮罩
+ifconfig 介面卡名稱 ip netmask 255.255.255.0
+
+ifconfig enp0s8:0 192.168.56.113 netmask 255.255.255.0
+         會產生一個虛擬介面
+ifconfig enp0s8:0  查看(他不會直接出現在enp0s8  這樣比較麻煩)
+
+ifconfig enp0s8:0 down  刪除
+
+另外改ip 方式(推薦)
+ip addr add 192.168.1.30/24 brd + dev etho   brd是支援廣播
+            想要改的ip  /埠號         介面卡名稱
+
+
+ip addr show enp0s8  直接出現在enp0s8裡面(一個介面卡可以有多個ip)
+             介面卡名稱
+
+
+修改網路卡卡號
+ifconfig enp0s8 hw ether 00:01:02:03:04:05
+ifconfig 看有沒有成功
+
+ip -s link show enp0s8 看詳細資訊
+ip route show 顯示路由器
+ip route add default via 192.168.56.2  新增一個內定路由
+
