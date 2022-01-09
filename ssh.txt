@@ -37,8 +37,8 @@ ls
 cd tmp
 gedit b.txt
 
-scp b.txt root@192.168.56.105:/tmp      把檔案上傳到對方的tmp資料夾
+scp b.txt root@192.168.56.105:/root/tmp      把檔案上傳到對方的tmp資料夾
 
-scp root@192.168.56.105:/tmp/a.txt /tmp   把檔案從另外一邊抓過來 
+scp root@192.168.56.105:/root/tmp/a.txt /tmp   把檔案從另外一邊抓過來 
 
 兩個id 都是對方id
