@@ -1,0 +1,10 @@
+vulnhub 教學
+
+https://www.vulnhub.com/
+yum install nmap
+
+nmap -sP 192.168.56.0/24   你要搜尋的ip/埠號有沒有開
+
+ip route show
+
+nmap -A 192.168.56.100  去看更多詳細資訊
