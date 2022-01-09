@@ -1,0 +1,44 @@
+寫一個腳本自己新增檔案 a.txt 在tmp資料夾
+cd ~
+cd /tmp
+which bash      找bash 在哪裡
+gedit 1.sh &     新增一個1.sh檔
+
+1.sh腳本裡
+~~~~~~~~~~~~~~~~~
+#!/usr/bin/bash
+
+if ! test -e /tmp/a.txt;
+then
+   touch /tmp/a.txt
+fi
+
+~~~~~~~~~~~~~~~~~~
+ctrl+c 返回
+ bash 1.sh  執行程式 去看看有沒有新增a.txt檔
+結束
+
+
+
+
+字串
+-n 字串 是否大於0(至少有一個字)
+-z 字串 是否為0(空字串)
+
+b=""   b=空字串
+test -n "$b"   判斷b是否大於0
+echo $?    回傳1代表錯誤
+
+a="123"
+test -n "$a"
+echo $?   回傳0代表正確
+
+test -n $b  如果沒加引號
+echo $?  他會回傳0  所以會判斷錯誤 所以一定要加引號
+
+
+test -z "$a"
+echo $? 回傳為1
+
+test -z "$b"
+echo $? 回傳為0
