@@ -1,0 +1,75 @@
+NetworkManager to network
+
+ip route show  顯示路由器(virtualbox 預設應該是10.0.2.2) (vmware 可能不一樣所以要記起來)
+
+把enp0s3的ip 跟遮罩還有廣播位置記起來(範例ip 10.02.15   遮罩255.255.255.0  broadcast 10.0.2.255))
+
+我們要去全手動去做network
+
+systemctl stop NetworkManager   
+systemctl disable NetworkManager  先關掉networkmanager
+ 
+systemctl start network
+systemctl status network    開啟network
+
+cd /etc/sysconfig/network-scripts/    network 設定檔在這裡(要在這裡手動)
+ls  找到要設定的介面卡
+
+gedit ifcfg-enp0s3 
+ 
+內容(可以先把原本的複製存在別的地方)
+~~~~~~~~~~~~~~~~~~~~~~
+TYPE="Ethernet"
+BOOTPROTO="dhcp"
+NAME="enp0s3"
+DEVICE="enp0s3"
+ONBOOT="yes"
+
+~~~~~~~~~~~~~~~~~~~~
+systemctl restart network
+ifconfig  ip route show   ping  8.8.8.8   應該都會有
+
+
+期末要看
+gedit ifcfg-enp0s3
+
+
+設定ip 設定遮罩 設定路由器
+~~~~~~~~~~~~~~
+
+TYPE="Ethernet"
+BOOTPROTO=static
+NAME="enp0s3"
+DEVICE="enp0s3"
+ONBOOT="yes"
+IPADDR=10.0.2.20
+NETMASK=255.255.255.0
+GATEWAY=10.0.2.2
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+systemctl restart network
+
+ifconfig enp0s3  看有沒有改
+
+ip route show  看路由器有沒有改
+
+ping 8.8.8.8  看可不可以上網
+
+
+
+如果要設定dns server
+
+gedit /etc/resolv.conf      要在這裡修改
+
+可以自己修改 有多個dns也沒問題
+~~~~~~~~~~~~~
+nameserver 8.8.8.8
+~~~~~~~~~~~~~~~
+
+ping tw.yahoo.com  看可不可以上網
+
+期末考 要show network是打開的  NetworkManager是關閉的
+還會要求更改指定ip 遮罩 路由 或dns 或ping
+
+
