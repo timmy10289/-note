@@ -1,0 +1,92 @@
+nfs
+
+先在a虛擬機
+
+systemctl status firewalld 檢查防火牆有沒有關
+
+getenforce 檢查是否disable
+
+cd /   
+mkdir mynfs   創建mynfs資料夾
+ls
+
+yum install -y nfs-utils  安裝套件
+
+gedit /etc/exports  新增並修改
+
+
+內容
+~~~~~~~~~~~~~~~~~~~
+/mynfs a虛擬機的ip/24(rw,sync,fsid=0)
+
+~~~~~~~~~~~~~~~~~~
+
+
+systemctl start rpcbind
+
+systemctl start nfs-server
+
+systemctl status rpcbind
+
+rpcinfo -p  確認伺服器啟動成功
+
+exportfs -r  檢查 NFS 伺服器是否掛載我們想共享的目錄/home/nfs/
+
+exportfs   確認是否有共享出來
+
+
+到b虛擬機
+
+cd /   
+mkdir mydata   創建mydata資料夾
+ls
+
+systemctl start rpcbind
+
+systemctl status rpcbind
+showmount -e nfs ***.***.***.***             輸入a虛擬機的ip愾有沒有被查到
+
+mount -t nfs ***.***.***.***:/mynfs /mydata
+
+再切到a虛擬機
+cd /mynfs
+touch {a..d}   新增a b c d四個檔案
+
+再切到b虛擬機
+cd /mydata
+ls   看有沒有那四個檔案
+
+b虛擬機對mynfs的權限修改   預設是a虛擬機寫入 b虛擬機顯示
+去a虛擬機
+cd ..
+ls -l mynfs   查看權限
+ls -ld mynfs
+chmod 777 /mynfs   權限全開     權限全開會有問題可以改755  chmod 755 /mynfs
+ls -ld mynfs
+
+到b虛擬機
+touch {1..4}   可以新增了
+ls
+
+解除掛載
+cd ..
+umount /mydata
+
+
+也可以用腳本配置權限
+到a虛擬機
+gedit /etc/exports
+
+~~~~~~~~~~~~~~~~~~~~
+/mynfs自己的ip/24(rw,sync,no_root_squash,no_all_squash)
+~~~~~~~~~~~~~~~~
+
+reboot  一定要重開機
+
+systemctl restart rpcbind
+systemctl restart nfs-server
+
+到b虛擬機重新掛載
+mount -t nfs a虛擬機ip:/mynfs /mydata
+cd /mydata
+ls
