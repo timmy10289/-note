@@ -1,5 +1,7 @@
 ssh no password login
 
+先改名字hostnamectl set-hostname [NAME]
+
 先在一個A虛擬機執行ssh
 systemctl start sshd
 systemctl status sshd   查看有沒有開啟
