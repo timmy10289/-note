@@ -1,0 +1,82 @@
+ haproxy
+參考網址 https://ci-jie.github.io/2020/10/25/HAProxy-Data-Plane-API/
+https://www.cnblogs.com/kevingrace/p/6138150.html
+
+需要三台虛擬機
+
+把三台虛擬機開啟網頁伺服器(最好把防火牆跟selinux都關掉)
+yum install httpd
+systemctl start httpd
+
+去每一個家目錄新增一個index.html 內容是主機名稱 代表這個網頁是從哪個主機來的
+
+cd /var/www/html  家目錄
+gedit index.html  新增檔案
+
+內容是其主機名稱
+~~~~~~~~~~~~~~~
+centos7-1
+~~~~~~~~~~~~~~~
+
+去chrome輸入各自的ip 測試看看有沒有冒出主機名稱
+
+去a虛擬機
+安裝haproxy
+
+yum install epel-release
+
+yum install haproxy -y
+cp /etc/haproxy/haproxy.cfg cp /etc/haproxy/haproxy.cfg.bak   複製文件預防萬一
+
+gedit /etc/haproxy/haproxy.cfg  編輯
+
+把下面兩個ip改成b虛擬機ip跟c虛擬機ip
+~~~~~~~~~~~~~~~~~~~~~
+global
+  daemon
+  chroot /var/lib/haproxy
+  user haproxy
+  group haproxy
+  stats timeout 30s
+
+defaults
+  mode http
+  log global
+  option httplog
+  option dontlognull
+  timeout connect 5000
+  timeout client 50000
+  timeout server 50000
+
+frontend http_front
+  bind *:80
+  stats uri /haproxy?stats
+  default_backend http_back
+
+backend http_back
+  balance roundrobin
+  server server_name1 192.168.5.3:80 check
+  server server_name2 192.168.5.4:80 check
+
+~~~~~~~~~~~~~~~~~~
+記得要把a虛擬機的httpd關掉(因為埠號會相碰)
+systmectl stop httpd
+systemctl start haproxy
+systemctl status haproxy
+
+去a虛擬機的網頁案重新整理  他會跑到b或者c虛擬機 達到負載分流(load balance)
+
+去把b虛擬機網路關閉 
+systmectl stop httpd
+
+再去a網頁 就只會跑到c網頁
+ 完成health check 
+
+可以改埠號
+gedit /etc/haproxy/haproxy.cf
+
+~~~~~~~~~~~~~~~~~~~~~
+bind *:8080
+~~~~~~~~~~~~~~~~~
+systmectl restart httpd
+這樣去打ip:8080就會出現了
