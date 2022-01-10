@@ -1,0 +1,45 @@
+參考網址https://www.twblogs.net/a/5c8c01e1bd9eee35cd6aceca
+
+telent
+
+
+yum install telnet
+
+yum install telnet-server
+
+rpm -qa | grep xinetd   檢查有沒有安裝
+
+yum install -y xinetd
+
+cd /etc/xinetd.d/   設定檔在這裡
+
+gedit telnet &
+
+~~~~~~~~~~~~~~~~~~~~
+service telnet
+
+{
+  flags = REUSE
+  socket_type = stream
+  wait = no
+  user = root
+  server = /usr/sbin/in.telnetd
+  log_on_failure += USERID
+  disable = no
+}
+
+~~~~~~~~~~~~~~~~~~~~~~
+
+cat echo-dgram      如果檔案是dgram就是UDP   檔案是stream就是TCP
+
+systemctl start xinetd
+systemctl status xinetd
+
+netstat -tunlp | grep 23    去看23號 有沒有xinetd
+
+
+打開putty  選擇telnet   打上ip  埠號23
+ 1
+輸入帳號密碼就進去了
+
+就完成了
