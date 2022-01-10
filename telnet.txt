@@ -43,3 +43,5 @@ netstat -tunlp | grep 23    去看23號 有沒有xinetd
 輸入帳號密碼就進去了
 
 就完成了
+
+ps -ef | grep telnet    可以去看伺服器載入情形
