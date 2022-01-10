@@ -1,0 +1,51 @@
+vsftp
+
+yum install vsftpd -y
+
+systemctl start vsftpd
+systemctl status vsftpd
+
+netstat -tunlp | grep 21   看有沒有執行在21號
+
+去windows cmd
+ftp 192.168.***.***   輸入帳號密碼登入 
+或是去winscp登入
+(可以用預設帳號 anonymous 密碼可以輸入自己的email:abc@gmail.com)
+
+打開wireshark  選擇 virtual host-only Network
+
+去cmd輸入ls 通常指令有2字頭都是正常運作的
+
+windows cmd 清畫面是 cls
+
+因為chroot  會改變家目錄的位置 讓使用者只會在指定目錄操作
+輸入ls 會看到/pub  但在虛擬機  是在 /var/ftp/pub
+
+去虛擬機 cd /var/ftp/pub
+touch a     會新增a檔案
+touch a{1..5}  新增a1 a2 a3 a4 a5
+
+去cmd
+cd pub
+有兩種傳輸方式bin 或ascII
+bin
+
+get a   可以拿到a檔案
+mget a*   可以拿到a字頭檔案
+
+prompt off  關閉互動模式 就不會有互動
+
+
+put a  可以上傳文件
+
+chmod 777 /var/ftp/pub
+
+gedit /etc/vsftpd/vsftpd.conf    設定檔在這裡
+
+找到annon_upload_enable=YES  把前面井字號刪掉
+anon_mkdir_write_enable=YES  把前面井字號刪掉
+
+systemctl restart vsftpd
+
+重登並上傳
+mput a*
